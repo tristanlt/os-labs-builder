@@ -1,0 +1,53 @@
+---
+- name: Build configuration for lab_config {{ item.name }}
+  ansible.builtin.include_vars:
+    file: vars/lab_config.yaml
+- name: Ensure {{ item.name }} lab components are up-to-date
+  community.general.terraform:
+    project_path: './tf/'
+    force_init: true
+    state: present
+    complex_vars: true
+    workspace: "{{ item.name }}"
+    variables: "{{ lab_config }}"
+  environment:
+    OS_CLIENT_CONFIG_FILE: "../clouds.yaml"
+    OS_CLOUD: "{{ item.cloud }}"
+  register: infra
+- name: Add {{ infra.outputs.edgenode_name.value }} to dynamic inventory
+  ansible.builtin.add_host:
+    hostname: "{{ item.name }}_{{ infra.outputs.edgenode_name.value }}"
+    ansible_host: "{{  infra.outputs.edgenode_ip_address.value[0]['ip_address'] }}"
+    ansible_user: "{{lab_config.remote_user}}"
+    groups :
+    - edgenode
+    - "{{ item.name }}"
+    lab_config: "{{lab_config}}"
+    lab_spec: "{{ item }}"
+    ansible_ssh_common_args: "-o StrictHostKeyChecking=no -J {{lab_config.remote_user}}@{{ infra.outputs.edgenode_fip_address.value }}"
+    ansible_ssh_extra_args: "-o StrictHostKeyChecking=no"
+- name: Add {{ infra.outputs.controller_name.value }} to dynamic inventory
+  ansible.builtin.add_host:
+    hostname: "{{ item.name }}_{{ infra.outputs.controller_name.value }}"
+    ansible_host: "{{  infra.outputs.controller_ip_address.value[0]['ip_address'] }}"
+    ansible_user: "{{lab_config.remote_user}}"
+    groups:
+    - controller
+    - "{{ item.name }}"
+    lab_config: "{{lab_config}}"
+    lab_spec: "{{ item }}"
+    ansible_ssh_common_args: "-o StrictHostKeyChecking=no -J {{lab_config.remote_user}}@{{ infra.outputs.edgenode_fip_address.value }}"
+    ansible_ssh_extra_args: "-o StrictHostKeyChecking=no"
+- name: Add {{ infra.outputs.compute1_name.value }} to dynamic inventory
+  ansible.builtin.add_host:
+    hostname: "{{ item.name }}_{{ infra.outputs.compute1_name.value }}"
+    ansible_host: "{{  infra.outputs.compute1_ip_address.value[0]['ip_address'] }}"
+    ansible_user: "{{lab_config.remote_user}}"
+    groups :
+    - compute
+    - "{{ item.name }}_compute"
+    - "{{ item.name }}"
+    lab_config: "{{lab_config}}"
+    lab_spec: "{{ item }}"
+    ansible_ssh_common_args: "-J {{lab_config.remote_user}}@{{ infra.outputs.edgenode_fip_address.value }}"
+    ansible_ssh_extra_args: "-o StrictHostKeyChecking=no"

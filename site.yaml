@@ -1,0 +1,20 @@
+---
+- name: "Deploy labs"
+  hosts: localhost
+  connection: local
+  
+  tasks:
+  - name: Read labs list and specifications
+    ansible.builtin.include_vars:
+      file: vars/labs.yaml
+      name: labs
+
+  - name: Terraform labs
+    include_tasks: playbooks/terraform-lab.yaml
+    loop: "{{ lookup('dict', labs).value }}"
+
+- name: "PostConfig labs hosts"
+  hosts: all
+  tasks:
+  - name: Postconfigure all
+    include_tasks: playbooks/postconf-lab.yaml

@@ -1,0 +1,16 @@
+---
+lab_config:
+  public_network: "cloud-ext"
+  main_subnet_cidr: "10.{{ item.index }}.0.0/24"
+  ext_subnet_cidr: "10.{{ item.index }}.66.0/24"
+  proj_subnet_cidr: "10.{{ item.index }}.42.0/24"
+  edgenode_flavor_name: "m1.small"
+  flavor_name: "m1.large"
+  keypair_name: "sysadmin"
+  remote_user: "ubuntu"
+  cloud: "{{ item.cloud }}"
+  ressources_prefix: "{{ item.ressources_prefix }}"
+  base_image: "jammy-server-cloudimg-amd642"
+  dns_nameservers:
+  - '194.167.226.19'
+  - '195.83.247.21'

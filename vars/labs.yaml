@@ -1,0 +1,12 @@
+---
+labs:
+  - name: 'training-000'
+    index: 0
+    ressources_prefix: 't000_'
+    cloud: 'training-000'
+    github_user: 'tristanlt'
+  - name: 'training-004'
+    index: 4
+    ressources_prefix: 't004_'
+    cloud: 'training-000'
+    github_user: ''  

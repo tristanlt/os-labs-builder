@@ -1,0 +1,13 @@
+tf/.terraform/environment
+tf/.terraform/providers/registry.terraform.io/terraform-provider-openstack/openstack/1.53.0/linux_amd64/CHANGELOG.md
+tf/.terraform/providers/registry.terraform.io/terraform-provider-openstack/openstack/1.53.0/linux_amd64/LICENSE
+tf/.terraform/providers/registry.terraform.io/terraform-provider-openstack/openstack/1.53.0/linux_amd64/README.md
+tf/.terraform/providers/registry.terraform.io/terraform-provider-openstack/openstack/1.53.0/linux_amd64/terraform-provider-openstack_v1.53.0
+tf/terraform.tfstate.d/training-000/terraform.tfstate
+tf/terraform.tfstate.d/training-000/terraform.tfstate.backup
+tf/terraform.tfstate.d/training-001/terraform.tfstate
+tf/terraform.tfstate.d/training-002/terraform.tfstate
+tf/terraform.tfstate.d/training-004/terraform.tfstate
+tf/terraform.tfstate.d/training-004/terraform.tfstate.backup
+tf/.terraform.lock.hcl
+clouds.yaml

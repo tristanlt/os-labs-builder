@@ -1,0 +1,20 @@
+---
+- name: Add SSH PubKey from github
+  ansible.posix.authorized_key:
+    user: "{{ lab_config.remote_user }}"
+    state: present
+    key: "{{ lookup('url', 'https://github.com/{{ lab_spec.github_user }}.keys', split_lines=False) }}"
+  when: lab_spec.github_user
+
+- name: Install useful packages
+  become: true
+  ansible.builtin.apt:
+    pkg:
+    - vim
+    - iftop
+    - net-tools
+    - python3-virtualenv
+    - python3-pip
+    - wireguard
+    - wireguard-tools
+    update_cache: yes
