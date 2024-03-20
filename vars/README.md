@@ -14,6 +14,8 @@ Network
 - *ext network* is a fake external network (reachable from edgenode for test)
 - *proj network* is for tenant network tunneling (VXLAN)
 
+![schema](schema-os-lab.png)
+
 ## Usage
 
 * Ensure `terraform` and `ansible` are in your `$PATH`
